@@ -1,7 +1,5 @@
 import 'dart:io';
 import 'package:adfc_ttp/all_tours.dart';
-import 'package:adfc_ttp/parse_csv.dart';
-// import 'package:adfc_ttp/parse_xml.dart';
 import 'package:path/path.dart' as p;
 
 void main(List<String> arguments) async {
@@ -15,12 +13,7 @@ void main(List<String> arguments) async {
   // final ParseXml parseXml = ParseXml(file);
 
   AllTours tours = AllTours(file);
-
-  final ParseCsv parseCsv = ParseCsv(file, tours);
-  tours.printTours();
-  await tours.writeCsFile();
-  await tours.writeTextFile();
-  await tours.writeHtmlFile();
+  await tours.printTours();
 
   exit(0);
 }

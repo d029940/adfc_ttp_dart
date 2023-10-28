@@ -1,7 +1,8 @@
 import 'dart:io';
 
-import 'package:adfc_ttp/parse_csv.dart';
+import 'package:adfc_ttp/global_constants.dart';
 import 'package:adfc_ttp/tour_record.dart';
+import 'package:csv/csv.dart';
 import 'package:path/path.dart' as p;
 
 class AllTours {
@@ -14,133 +15,96 @@ class AllTours {
   AllTours(this.file) {
     final dirname = p.dirname(file.path);
     final inputFileWithoutExt = p.basenameWithoutExtension(file.path);
+
+    // Parse CSV file and create internal representation of the tours
+    List<List<dynamic>> csvDocument =
+        const CsvToListConverter(fieldDelimiter: Csv.fieldDelimiter)
+            .convert(file.readAsStringSync());
+    // Async version
+    // final csvFile = await file.readAsString();
+    // List<List<dynamic>> csvDocument = const CsvToListConverter().convert(csvFile);
+
+    bool isHeader = true;
+    for (var line in csvDocument) {
+      if (isHeader) {
+        // skip the field headers in the first line
+        isHeader = false;
+        continue;
+      }
+      // parse tour for relevant output field
+      _tours.add(TourRecord(line.cast<String>()));
+    }
+    _sort();
+
     outputTextFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.txt');
     outputHtmlFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.html');
     outputCsvFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.csv');
   }
 
-  void add(TourRecord tour) {
-    _tours.add(tour);
-  }
-
-  void sort() {
+  void _sort() {
     _tours.sort((TourRecord lhs, TourRecord rhs) {
-      final left = lhs.startDate.split('.');
-      final right = rhs.startDate.split('.');
+      final left = lhs.startDate;
+      final right = rhs.startDate;
 
-      final leftMonth = int.parse(left[1]);
-      final rightMonth = int.parse(right[1]);
-      final leftDay = int.parse(left[0]);
-      final rightDay = int.parse(right[0]);
-      final leftVal = leftMonth * 100 + leftDay;
-      final rightVal = rightMonth * 100 + rightDay;
-
-      return leftVal - rightVal;
+      if (left.isBefore(right)) {
+        return -1;
+      } else if (left.isAfter(right)) {
+        return 1;
+      } else {
+        return 0;
+      }
     });
   }
 
-  Future<void> writeCsFile() async {
-    var sink = outputCsvFile.openWrite();
-
+  Future<void> printTours() async {
+    // opening steps for csv output
+    var csvSink = outputCsvFile.openWrite();
     // Write header
-    ParseCsv.headerNames.forEach((key, value) {
-      sink.write('$value${ParseCsv.fieldDelimiter}');
-    });
-    sink.writeln('Tourleitung${ParseCsv.fieldDelimiter}Anmeldung');
-
-    for (var tour in _tours) {
-      sink.write('${tour.title}${ParseCsv.fieldDelimiter}');
-      sink.write(
-          '${tour.shortDescription.replaceAll('\n', ' - ')}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.organizer}${ParseCsv.fieldDelimiter}');
-      sink.write(
-          '${tour.description.replaceAll('\n', ' - ')}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.startDate}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.startTime}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.endDate}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.city}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.street}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.lengthKm}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.difficulty}${ParseCsv.fieldDelimiter}');
-      sink.write('${tour.tourGuide}${ParseCsv.fieldDelimiter}');
-      sink.writeln('${tour.registration}');
+    for (int i = 0; i < Csv.headerNamesCsvOutput.length - 1; ++i) {
+      if (OutFields.values[i] != OutFields.organizer) {
+        // special treatment for Organizer: do not output
+        csvSink.write('${Csv.headerNamesCsvOutput[i]}${Csv.fieldDelimiter}');
+      }
     }
+    csvSink
+        .writeln(Csv.headerNamesCsvOutput[Csv.headerNamesCsvOutput.length - 1]);
 
-    await sink.flush();
-    sink.close();
-  }
+    // opening steps for html output
+    var htmlSink = outputHtmlFile.openWrite();
+    // write header
+    htmlSink.writeln('<!DOCTYPE html>');
+    htmlSink.writeln('<html>');
+    htmlSink.writeln('<head> <title>ADFC Liste der Touren</title> </head>');
+    htmlSink.writeln('<meta charset="utf-8">');
+    htmlSink.writeln('<h1>ADFC Liste der Touren</h1>');
+    htmlSink.writeln('<body>');
 
-  Future<void> writeTextFile() async {
-    var sink = outputTextFile.openWrite();
+    // opening steps for text output
+    var txtSink = outputTextFile.openWrite();
 
-    for (var tour in _tours) {
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.titleField]}: ${tour.title}');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.shortDescriptionField]}: ${tour.shortDescription}');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.organizerField]}: ${tour.organizer}');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.descriptionField]}: ${tour.description}');
-      sink.writeln('Startzeit: ${tour.startDate} ${tour.startTime}');
-      sink.writeln('Treffpunkt: ${tour.city}, ${tour.street}');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.lengthField]}: ${tour.lengthKm}');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.difficultyField]}: ${tour.difficulty}');
-      sink.writeln('Tourenleitung: ${tour.tourGuide}');
-      sink.writeln('Anmeldung: ${tour.registration}');
-      sink.writeln(
-          '------------------------------------------------------------------');
-    }
-    sink.writeln('Anzahl Touren: ${_tours.length}');
-    await sink.flush();
-    sink.close();
-  }
-
-  Future<void> writeHtmlFile() async {
-    var sink = outputHtmlFile.openWrite();
-
-    sink.writeln('<!DOCTYPE html>');
-    sink.writeln('<html>');
-    sink.writeln('<head> <title>ADFC Liste der Touren</title> </head>');
-    sink.writeln('<meta charset="utf-8">');
-    sink.writeln('<h1>ADFC Liste der Touren</h1>');
-    sink.writeln('<body>');
-
-    for (var tour in _tours) {
-      sink.writeln('<p>');
-      sink.writeln(
-          '<b><i>${ParseCsv.headerNames[ParseCsv.titleField]}: ${tour.title}</i></b><br>');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.shortDescriptionField]}: ${tour.shortDescription}<br>');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.organizerField]}: ${tour.organizer}<br>');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.descriptionField]}: ${tour.description}<br>');
-      sink.writeln('Startzeit: ${tour.startDate} ${tour.startTime}<br>');
-      sink.writeln('Treffpunkt: ${tour.city}, ${tour.street}<br>');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.lengthField]}: ${tour.lengthKm}<br>');
-      sink.writeln(
-          '${ParseCsv.headerNames[ParseCsv.difficultyField]}: ${tour.difficulty}<br>');
-      sink.writeln('Tourenleitung: ${tour.tourGuide}<br>');
-      sink.writeln('Anmeldung: ${tour.registration}<br>');
-      sink.writeln('</p>');
-    }
-    sink.writeln('<p><b><i>Anzahl Touren: ${_tours.length}</i></b></p>');
-    sink.writeln('</body> \n</html>');
-
-    await sink.flush();
-    sink.close();
-  }
-
-  void printTours() {
+    // printing tour
     for (var tourRecord in _tours) {
-      tourRecord.printTour();
-      print(
-          '------------------------------------------------------------------');
+      tourRecord.printTour(
+          txtSink: txtSink, htmlSink: htmlSink, csvSink: csvSink);
     }
+
+    // closing steps for console output
     print('Anzahl Touren: ${_tours.length}');
+
+    // closing steps for text output
+    txtSink.writeln('Anzahl Touren: ${_tours.length}');
+    await txtSink.flush();
+    txtSink.close();
+
+    // closing steps for html output
+    htmlSink.writeln('<p><b><i>Anzahl Touren: ${_tours.length}</i></b></p>');
+    htmlSink.writeln('</body> \n</html>');
+
+    await htmlSink.flush();
+    htmlSink.close();
+
+    // closing steps for csv output
+    await csvSink.flush();
+    csvSink.close();
   }
 }
