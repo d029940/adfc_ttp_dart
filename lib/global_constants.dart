@@ -1,5 +1,11 @@
 const String defaultTourGuide = 'ADFC Garbsen/Seelze';
 
+// Characteristics of a tour
+const int speedThreshold = 18; // up to 18km/h normal, above fast
+const List<String> normalSpeed = ['15 - 18 km/h'];
+const int altitudeThreshold = 300; // up to 300Hm normal, above mountainous
+const List<String> mountainous = ["hügelig", "bergig"];
+
 class Csv {
   static const fieldDelimiter = ';';
 
@@ -13,24 +19,31 @@ class Csv {
   static const organizerField = 26;
   static const lengthField = 32;
   static const speedField = 33;
+  static const int altitudeDescField = 34;
+  static const altitudeField = 35;
+  static const int speedDescField = 37;
   static const difficultyField = 39;
   static const streetField = 40;
   static const cityField = 41;
 
   // Process relevant input fields
-  static const Map<int, String> headerNamesCsvInput = {
-    titleField: 'Titel',
-    shortDescriptionField: 'Kurzbeschreibung',
-    organizerField: 'Organisator',
-    descriptionField: 'Beschreibung',
-    startDateField: 'Datum',
-    startTimeField: 'Zeit',
-    endDateField: 'Ende',
-    cityField: 'Stadt',
-    streetField: 'Strasse',
-    lengthField: 'Länge',
-    difficultyField: 'Schwierigkeitsgrad'
-  };
+  static const List<int> headerNamesCsvInput = [
+    titleField, // 'Titel',
+    shortDescriptionField, // 'Kurzbeschreibung',
+    organizerField, // 'Organisator',
+    descriptionField, // 'Beschreibung',
+    startDateField, // 'Datum',
+    startTimeField, // 'Zeit',
+    endDateField, // 'Ende',
+    cityField, // 'Stadt',
+    streetField, // 'Strasse',
+    lengthField, // 'Länge',
+    speedField, // 'Geschwindigkeit',
+    altitudeDescField, // "Höhenbewertung",
+    altitudeField, // 'Höhenmeter',
+    speedDescField, // "Geschwindigkeitsbereich",
+    difficultyField, // 'Schwierigkeitsgrad'
+  ];
 
   // Output csv field
   static const List<String> headerNamesCsvOutput = [
@@ -40,21 +53,24 @@ class Csv {
     'Beginn Datum',
     'Beginn Zeit',
     'Ende Datum',
-    // 'Ende Zeit',
     'Organisator',
     'Länge',
+    'Geschwindigkeit',
+    'Höhenbewertung',
+    'Bergig',
+    'Geschwindigkeitsbereich',
     'Schwierigkeit',
     'Strasse',
     'Stadt',
     'Tourenleitung',
     'Anmeldung',
     'Mehrtagestour',
-    'Beginn Wochentag',
-    'Ende Wochentag'
+    // 'Beginn Wochentag',
+    // 'Ende Wochentag'
   ];
 }
 
-// Output csv field
+// Output csv field: sequence must match csv output fields
 enum OutFields {
   title,
   shortDescription,
@@ -62,17 +78,38 @@ enum OutFields {
   startDate,
   startTime,
   endDate,
-  //    EndTime,
   organizer,
   length,
+  speed,
+  altitudeDescr,
+  altitude,
+  speedDescField,
   difficulty,
   street,
   city,
   tourGuide,
   registration,
   multipleDays,
-  startDay,
-  endDay // NOTE: Update tour::printProcess if last field has been changed
+  // NOTE: Update tour::printProcess if last field has been changed
+}
+
+// Input csv field: sequence must match csv input fields
+enum InFields {
+  title,
+  shortDescription,
+  organizer,
+  description,
+  startDate,
+  startTime,
+  endDate,
+  length,
+  speed,
+  altitudeDesc,
+  altitude,
+  speedDesc,
+  difficulty,
+  city,
+  street
 }
 
 // Tourguides ADFC Garbsen/Seeze
