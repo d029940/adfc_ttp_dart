@@ -10,39 +10,39 @@ class Csv {
   static const fieldDelimiter = ';';
 
   // relevant Fields of the input csv file
-  static const titleField = 3;
-  static const shortDescriptionField = 4;
-  static const descriptionField = 5;
-  static const startDateField = 11;
-  static const startTimeField = 12;
-  static const endDateField = 13;
-  static const organizerField = 26;
-  static const lengthField = 32;
-  static const speedField = 33;
-  static const int altitudeDescField = 34;
-  static const altitudeField = 35;
-  static const int speedDescField = 37;
-  static const difficultyField = 39;
-  static const streetField = 40;
-  static const cityField = 41;
+  static const titleField = 3; // Titel
+  static const shortDescriptionField = 4; // Kurzbeschreibung
+  static const descriptionField = 5; // Beschreibung
+  static const startDateField = 11; // Beginndatum
+  static const startTimeField = 12; // Zeit
+  static const endDateField = 13; // Endedatum
+  static const organizerField = 26; // Organisator
+  static const lengthField = 32; // Länge
+  static const speedField = 33; // Geschwindigkeit
+  static const altitudeDescField = 34; // Höhenbewertung
+  static const altitudeField = 35; // Höhenmeter
+  static const speedDescField = 37; // Geschwindigkeitsbereich
+  static const difficultyField = 39; // Schwierigkeitsgrad
+  static const streetField = 40; // Strasse
+  static const cityField = 41; // Stadt
 
   // Process relevant input fields
   static const List<int> headerNamesCsvInput = [
-    titleField, // Titel
-    shortDescriptionField, // Kurzbeschreibung
-    descriptionField, // Beschreibung
-    startDateField, // Datum
-    startTimeField, // Zeit
-    endDateField, // Ende'
-    organizerField, // Organisator
-    lengthField, // Länge
-    speedField, // Geschwindigkeit
-    altitudeDescField, // "öhenbewertung
-    altitudeField, // Höhenmeter
-    speedDescField, // Geschwindigkeitsbereich
-    difficultyField, // Schwierigkeitsgrad
-    cityField, // Stadt
-    streetField, // Strasse
+    titleField,
+    shortDescriptionField,
+    descriptionField,
+    startDateField,
+    startTimeField,
+    endDateField,
+    organizerField,
+    lengthField,
+    speedField,
+    altitudeDescField,
+    altitudeField,
+    speedDescField,
+    difficultyField,
+    cityField,
+    streetField,
   ];
 
   // Output csv field
@@ -53,44 +53,18 @@ class Csv {
     'Beginn Datum',
     'Beginn Zeit',
     'Ende Datum',
-    'Organisator',
+    'Tourenleitung',
     'Länge',
     'Geschwindigkeit',
-    'Höhenbewertung',
-    'Bergig',
     'Geschwindigkeitsbereich',
+    'Bergig',
+    'Höhenbewertung',
     'Schwierigkeit',
-    'Strasse',
     'Stadt',
-    'Tourenleitung',
+    'Strasse',
     'Anmeldung',
-    'Mehrtagestour',
-    // 'Beginn Wochentag',
-    // 'Ende Wochentag'
+    'Mehrtagestour'
   ];
-}
-
-// Output csv field: sequence must match csv output fields
-enum OutFields {
-  title,
-  shortDescription,
-  description,
-  startDate,
-  startTime,
-  endDate,
-  organizer,
-  length,
-  speed,
-  altitudeDescr,
-  altitude,
-  speedDescField,
-  difficulty,
-  street,
-  city,
-  tourGuide,
-  registration,
-  multipleDays,
-  // NOTE: Update tour::printProcess if last field has been changed
 }
 
 // Tourguides ADFC Garbsen/Seeze

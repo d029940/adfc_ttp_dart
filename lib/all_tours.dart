@@ -70,14 +70,9 @@ class AllTours {
 
   Future<void> printTours() async {
     // opening steps for csv output
-    var csvSink = outputCsvFile.openWrite();
+    var csvSink = outputCsvFile.openWrite(encoding: SystemEncoding());
     // Write header
-    for (int i = 0; i < Csv.headerNamesCsvOutput.length - 1; ++i) {
-      if (OutFields.values[i] != OutFields.organizer) {
-        // special treatment for Organizer: do not output
-        csvSink.write('${Csv.headerNamesCsvOutput[i]}${Csv.fieldDelimiter}');
-      }
-    }
+    for (int i = 0; i < Csv.headerNamesCsvOutput.length - 1; ++i) {}
     csvSink
         .writeln(Csv.headerNamesCsvOutput[Csv.headerNamesCsvOutput.length - 1]);
 
@@ -92,7 +87,7 @@ class AllTours {
     htmlSink.writeln('<body>');
 
     // opening steps for text output
-    var txtSink = outputTextFile.openWrite();
+    var txtSink = outputTextFile.openWrite(encoding: SystemEncoding());
 
     // printing tour
     for (var tourRecord in _tours) {

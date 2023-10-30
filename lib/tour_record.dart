@@ -35,13 +35,16 @@ class TourRecord {
 
   void _postProcessing() {
     try {
-      List<String> date = _tour[OutFields.startDate.index].split('.');
+      List<String> date =
+          _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]
+              .split('.');
       int day = int.parse(date[0]);
       int month = int.parse(date[1]);
       int year = int.parse(date[2]);
       _startDate = DateTime(year, month, day);
 
-      date = _tour[OutFields.endDate.index].split('.');
+      date = _tour[AllTours.csvInputFields2TourFields[Csv.endDateField]!]
+          .split('.');
       day = int.parse(date[0]);
       month = int.parse(date[1]);
       year = int.parse(date[2]);
@@ -52,12 +55,15 @@ class TourRecord {
       _multipleDaysTour();
 
       // Characteristics of a tour
-      _isFastTour = int.parse(_tour[OutFields.speed.index]) > altitudeThreshold
+      _isFastTour = int.parse(
+                  _tour[AllTours.csvInputFields2TourFields[Csv.speedField]!]) >
+              altitudeThreshold
           ? 'schnell'
           : 'normal';
 
       var altitude = int.parse(
-          _tour[OutFields.altitude.index].replaceAll(RegExp(r'[="]'), ''));
+          _tour[AllTours.csvInputFields2TourFields[Csv.altitudeField]!]
+              .replaceAll(RegExp(r'[="]'), ''));
       _isMountainous = altitude > altitudeThreshold ? 'ja' : 'nein';
     } on FormatException catch (e) {
       print(e.message);
@@ -65,15 +71,18 @@ class TourRecord {
   }
 
   void _findRegistration() {
-    if (_tour[OutFields.description.index].contains("Anmeldung")) {
+    if (_tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!]
+        .contains("Anmeldung")) {
       _registration = 'ja';
     }
   }
 
   void _findTourGuide() {
-    _tourGuide = _tour[OutFields.organizer.index];
+    _tourGuide = _tour[AllTours.csvInputFields2TourFields[Csv.organizerField]!];
     if (_tourGuide.compareTo(defaultTourGuide) == 0) {
-      final lines = _tour[OutFields.description.index].split('\n');
+      final lines =
+          _tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!]
+              .split('\n');
       for (var line in lines) {
         if (line.contains('Tourenleit') || line.contains('Tourleit')) {
           _tourGuide = line;
@@ -117,287 +126,192 @@ class TourRecord {
     }
   }
 
-  void printTour2({IOSink? txtSink, IOSink? htmlSink, IOSink? csvSink}) {
+  void printTour({IOSink? txtSink, IOSink? htmlSink, IOSink? csvSink}) {
     if (htmlSink != null) {
       htmlSink.writeln('<p>');
     }
 
+    int outputField = 0;
+
     // title
     _printText(
-      'Titel',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.titleField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
       bold: true,
     );
+    outputField++;
 
     // short description
     _printText(
-      'Kurzbeschreibung',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.shortDescriptionField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
       replaceNewLines: true,
     );
+    outputField++;
 
     // description
     _printText(
-      'Beschreibung',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
       replaceNewLines: true,
     );
+    outputField++;
 
     // start date
     var weekday = _startDate.weekday;
     _printText(
-      'Beginn Datum',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!],
       csvSink: csvSink,
       consoleOutput: false,
     );
     _printText(
-      'Beginn Datum',
+      Csv.headerNamesCsvOutput[outputField],
       '${_tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]} (${nameOfWeekDays[weekday - 1]})',
       txtSink: txtSink,
       htmlSink: htmlSink,
     );
+    outputField++;
 
     // start time
     _printText(
-      'Beginn Zeit',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.startTimeField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
     );
+    outputField++;
 
     // end date
     _printText(
-      'Ende Datum',
+      Csv.headerNamesCsvOutput[outputField],
       _tour[AllTours.csvInputFields2TourFields[Csv.endDateField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
     );
-
-    // length
-    _printText(
-      'Länge',
-      _tour[AllTours.csvInputFields2TourFields[Csv.lengthField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // Speed
-    _printText(
-      'Geschwindigkeit',
-      _isFastTour,
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // speed description
-    _printText(
-      'Geschwindigkeitsbereich',
-      _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // mountainous
-    _printText(
-      'Bergig',
-      _isMountainous,
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // mountain characteristic
-    _printText(
-      'Höhenbewertung',
-      _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-// difficulty
-    _printText(
-      'Schwierigkeit',
-      _tour[AllTours.csvInputFields2TourFields[Csv.difficultyField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // street
-    _printText(
-      'Strasse',
-      _tour[AllTours.csvInputFields2TourFields[Csv.streetField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
-
-    // city
-    _printText(
-      'Stadt',
-      _tour[AllTours.csvInputFields2TourFields[Csv.cityField]!],
-      txtSink: txtSink,
-      htmlSink: htmlSink,
-      csvSink: csvSink,
-    );
+    outputField++;
 
     // tour guide
     _printText(
-      'Tourenleitung',
+      Csv.headerNamesCsvOutput[outputField],
       _tourGuide,
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
     );
+    outputField++;
+
+    // length
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.lengthField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // Speed
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _isFastTour,
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // speed description
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // mountainous
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _isMountainous,
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // mountain characteristic
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+// difficulty
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.difficultyField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // street
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.streetField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
+
+    // city
+    _printText(
+      Csv.headerNamesCsvOutput[outputField],
+      _tour[AllTours.csvInputFields2TourFields[Csv.cityField]!],
+      txtSink: txtSink,
+      htmlSink: htmlSink,
+      csvSink: csvSink,
+    );
+    outputField++;
 
     // registration
     _printText(
-      'Anmeldung',
+      Csv.headerNamesCsvOutput[outputField],
       _registration,
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
     );
+    outputField++;
 
     // multi day tour
     _printText(
-      'Mehrtagestour',
+      Csv.headerNamesCsvOutput[outputField],
       _isMultipleDaysTour,
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
       lastField: true,
     );
-
-    // print separator markers after each tour
-    print('------------------------------------------------------------------');
-    if (txtSink != null) {
-      txtSink.writeln(
-          '------------------------------------------------------------------');
-    }
-    if (htmlSink != null) {
-      htmlSink.writeln('</p>');
-    }
-  }
-
-  void printTour({IOSink? txtSink, IOSink? htmlSink, IOSink? csvSink}) {
-    if (htmlSink != null) {
-      htmlSink.writeln('<p>');
-    }
-    for (int i = 0; i < Csv.headerNamesCsvOutput.length; ++i) {
-      if (i == OutFields.title.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tour[AllTours.csvInputFields2TourFields[Csv.titleField]!],
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-          bold: true,
-        );
-      } else if (i == OutFields.shortDescription.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tour[AllTours.csvInputFields2TourFields[Csv.shortDescriptionField]!],
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-          replaceNewLines: true,
-        );
-      } else if (i == OutFields.startDate.index) {
-        var weekday = _startDate.weekday;
-        _printText(Csv.headerNamesCsvOutput[i],
-            _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!],
-            csvSink: csvSink, consoleOutput: false);
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          '${_tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]} (${nameOfWeekDays[weekday - 1]})',
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-        );
-      } else if (i == OutFields.registration.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _registration,
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.tourGuide.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tourGuide,
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.speed.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _isFastTour,
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.speedDescField.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.altitude.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _isMountainous,
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.altitudeDescr.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      } else if (i == OutFields.multipleDays.index) {
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _isMultipleDaysTour,
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-          lastField: true,
-        );
-      } else if (i < tour.length && i != OutFields.organizer.index) {
-        // special treatment for Organizer: do not output
-        _printText(
-          Csv.headerNamesCsvOutput[i],
-          _tour[i],
-          txtSink: txtSink,
-          htmlSink: htmlSink,
-          csvSink: csvSink,
-        );
-      }
-    }
+    outputField++;
 
     // print separator markers after each tour
     print('------------------------------------------------------------------');
