@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:adfc_ttp/all_tours.dart';
+
 import 'global_constants.dart';
 
 class TourRecord {
@@ -123,7 +125,7 @@ class TourRecord {
     // title
     _printText(
       'Titel',
-      _tour[InFields.title.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.titleField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -133,7 +135,7 @@ class TourRecord {
     // short description
     _printText(
       'Kurzbeschreibung',
-      _tour[InFields.shortDescription.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.shortDescriptionField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -143,7 +145,7 @@ class TourRecord {
     // description
     _printText(
       'Beschreibung',
-      _tour[InFields.description.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -154,13 +156,13 @@ class TourRecord {
     var weekday = _startDate.weekday;
     _printText(
       'Beginn Datum',
-      _tour[InFields.startDate.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!],
       csvSink: csvSink,
       consoleOutput: false,
     );
     _printText(
       'Beginn Datum',
-      '${_tour[InFields.startDate.index]} (${nameOfWeekDays[weekday - 1]})',
+      '${_tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]} (${nameOfWeekDays[weekday - 1]})',
       txtSink: txtSink,
       htmlSink: htmlSink,
     );
@@ -168,7 +170,7 @@ class TourRecord {
     // start time
     _printText(
       'Beginn Zeit',
-      _tour[InFields.startTime.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.startTimeField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -177,7 +179,7 @@ class TourRecord {
     // end date
     _printText(
       'Ende Datum',
-      _tour[InFields.endDate.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.endDateField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -186,7 +188,7 @@ class TourRecord {
     // length
     _printText(
       'Länge',
-      _tour[InFields.length.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.lengthField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -204,7 +206,7 @@ class TourRecord {
     // speed description
     _printText(
       'Geschwindigkeitsbereich',
-      _tour[InFields.speedDesc.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -222,7 +224,7 @@ class TourRecord {
     // mountain characteristic
     _printText(
       'Höhenbewertung',
-      _tour[InFields.altitudeDesc.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -231,7 +233,7 @@ class TourRecord {
 // difficulty
     _printText(
       'Schwierigkeit',
-      _tour[InFields.difficulty.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.difficultyField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -240,7 +242,7 @@ class TourRecord {
     // street
     _printText(
       'Strasse',
-      _tour[InFields.street.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.streetField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -249,7 +251,7 @@ class TourRecord {
     // city
     _printText(
       'Stadt',
-      _tour[InFields.city.index],
+      _tour[AllTours.csvInputFields2TourFields[Csv.cityField]!],
       txtSink: txtSink,
       htmlSink: htmlSink,
       csvSink: csvSink,
@@ -302,7 +304,7 @@ class TourRecord {
       if (i == OutFields.title.index) {
         _printText(
           Csv.headerNamesCsvOutput[i],
-          _tour[OutFields.title.index],
+          _tour[AllTours.csvInputFields2TourFields[Csv.titleField]!],
           txtSink: txtSink,
           htmlSink: htmlSink,
           csvSink: csvSink,
@@ -311,7 +313,7 @@ class TourRecord {
       } else if (i == OutFields.shortDescription.index) {
         _printText(
           Csv.headerNamesCsvOutput[i],
-          _tour[OutFields.shortDescription.index],
+          _tour[AllTours.csvInputFields2TourFields[Csv.shortDescriptionField]!],
           txtSink: txtSink,
           htmlSink: htmlSink,
           csvSink: csvSink,
@@ -319,12 +321,12 @@ class TourRecord {
         );
       } else if (i == OutFields.startDate.index) {
         var weekday = _startDate.weekday;
-        _printText(
-            Csv.headerNamesCsvOutput[i], _tour[OutFields.startDate.index],
+        _printText(Csv.headerNamesCsvOutput[i],
+            _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!],
             csvSink: csvSink, consoleOutput: false);
         _printText(
           Csv.headerNamesCsvOutput[i],
-          '${_tour[OutFields.startDate.index]} (${nameOfWeekDays[weekday - 1]})',
+          '${_tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]} (${nameOfWeekDays[weekday - 1]})',
           txtSink: txtSink,
           htmlSink: htmlSink,
         );
@@ -355,7 +357,7 @@ class TourRecord {
       } else if (i == OutFields.speedDescField.index) {
         _printText(
           Csv.headerNamesCsvOutput[i],
-          _tour[InFields.speedDesc.index],
+          _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
           txtSink: txtSink,
           htmlSink: htmlSink,
           csvSink: csvSink,
@@ -371,7 +373,7 @@ class TourRecord {
       } else if (i == OutFields.altitudeDescr.index) {
         _printText(
           Csv.headerNamesCsvOutput[i],
-          _tour[InFields.altitudeDesc.index],
+          _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
           txtSink: txtSink,
           htmlSink: htmlSink,
           csvSink: csvSink,

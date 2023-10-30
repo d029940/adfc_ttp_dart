@@ -28,21 +28,21 @@ class Csv {
 
   // Process relevant input fields
   static const List<int> headerNamesCsvInput = [
-    titleField, // 'Titel',
-    shortDescriptionField, // 'Kurzbeschreibung',
-    organizerField, // 'Organisator',
-    descriptionField, // 'Beschreibung',
-    startDateField, // 'Datum',
-    startTimeField, // 'Zeit',
-    endDateField, // 'Ende',
-    cityField, // 'Stadt',
-    streetField, // 'Strasse',
-    lengthField, // 'Länge',
-    speedField, // 'Geschwindigkeit',
-    altitudeDescField, // "Höhenbewertung",
-    altitudeField, // 'Höhenmeter',
-    speedDescField, // "Geschwindigkeitsbereich",
-    difficultyField, // 'Schwierigkeitsgrad'
+    titleField, // Titel
+    shortDescriptionField, // Kurzbeschreibung
+    descriptionField, // Beschreibung
+    startDateField, // Datum
+    startTimeField, // Zeit
+    endDateField, // Ende'
+    organizerField, // Organisator
+    lengthField, // Länge
+    speedField, // Geschwindigkeit
+    altitudeDescField, // "öhenbewertung
+    altitudeField, // Höhenmeter
+    speedDescField, // Geschwindigkeitsbereich
+    difficultyField, // Schwierigkeitsgrad
+    cityField, // Stadt
+    streetField, // Strasse
   ];
 
   // Output csv field
@@ -91,25 +91,6 @@ enum OutFields {
   registration,
   multipleDays,
   // NOTE: Update tour::printProcess if last field has been changed
-}
-
-// Input csv field: sequence must match csv input fields
-enum InFields {
-  title,
-  shortDescription,
-  organizer,
-  description,
-  startDate,
-  startTime,
-  endDate,
-  length,
-  speed,
-  altitudeDesc,
-  altitude,
-  speedDesc,
-  difficulty,
-  city,
-  street
 }
 
 // Tourguides ADFC Garbsen/Seeze

@@ -12,7 +12,19 @@ class AllTours {
   late final File outputCsvFile;
   final List<TourRecord> _tours = [];
 
+  static final Map<int, int> _csvInputFields2TourFields = {};
+  static Map<int, int> get csvInputFields2TourFields =>
+      _csvInputFields2TourFields;
+  static final Map<int, int> _csvOutputFields = {};
+  static Map<int, int> get csvOutputFields => _csvOutputFields;
+
   AllTours(this.file) {
+    // map csv input fields to the fields in the tour record.
+    // needed for accessing specific field in the tour record by the field umber of the csv input file
+    for (int i = 0; i < Csv.headerNamesCsvInput.length; ++i) {
+      _csvInputFields2TourFields[Csv.headerNamesCsvInput[i]] = i;
+    }
+
     final dirname = p.dirname(file.path);
     final inputFileWithoutExt = p.basenameWithoutExtension(file.path);
 
