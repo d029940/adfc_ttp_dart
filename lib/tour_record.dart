@@ -335,7 +335,7 @@ class TourRecord {
         break;
       case FileType.html:
         sink?.writeln(
-            '${bold ? '<b>' : ''}<i>$colName</i>: ${replaceNewLines ? text.replaceAll('\n', ' ') : text.replaceAll('\n', '<br>')}${bold ? '</b>' : ''}');
+            '${bold ? '<b>' : ''}<i>$colName</i>: ${replaceNewLines ? text.replaceAll('\n', '<br>') : text.replaceAll('\n', ' ')}${bold ? '</b>' : ''}');
         break;
       case FileType.txt:
         sink?.writeln(
