@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:adfc_ttp/global_constants.dart';
 import 'package:adfc_ttp/tour_record.dart';
 import 'package:csv/csv.dart';
+import 'package:dart_date/dart_date.dart';
 import 'package:path/path.dart' as p;
 
 /// Everything related to a all tours
@@ -55,9 +56,11 @@ class AllTours {
     }
     _sort();
 
-    outputTextFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.txt');
-    outputHtmlFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.html');
-    outputCsvFile = File('$dirname${p.separator}$inputFileWithoutExt-mk.csv');
+    final dateStr = DateTime.now().format('_yyyy-MM-dd', 'de_DE');
+    // final dateStr = '_${now.year}-${now.month}-${now.day}';
+    outputTextFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.txt');
+    outputHtmlFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.html');
+    outputCsvFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.csv');
   }
 
   /// Print header, tours and footer from the internal ar
