@@ -1,8 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="mac" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
-    <option name="arguments" value="$USER_HOME$/Downloads/Veranstaltungs-Export.csv" />
-    <option name="filePath" value="$PROJECT_DIR$/bin/adfc_ttp.dart" />
-    <option name="workingDirectory" value="$PROJECT_DIR$" />
-    <method v="2" />
-  </configuration>
-</component>

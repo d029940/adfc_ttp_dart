@@ -1,3 +1,13 @@
+/**
+All global constants which describe what
+
+- input fields are relevant
+- output fields are used for cvs output
+- output fields are used for text and html output
+
+*/
+
+/// "Name" of tour guide, if no real one is given
 const String defaultTourGuide = 'ADFC Garbsen/Seelze';
 
 // Characteristics of a tour
@@ -6,6 +16,7 @@ const List<String> normalSpeed = ['15 - 18 km/h'];
 const int altitudeThreshold = 300; // up to 300Hm normal, above mountainous
 const List<String> mountainous = ["hügelig", "bergig"];
 
+/// All related constants for parsing csv file
 class Csv {
   static const fieldDelimiter = ';';
 
@@ -16,7 +27,7 @@ class Csv {
   static const startDateField = 11; // Beginndatum
   static const startTimeField = 12; // Zeit
   static const endDateField = 13; // Endedatum
-  static const organizerField = 26; // Organisator
+  static const tourGuideField = 26; // Organisator
   static const lengthField = 32; // Länge
   static const speedField = 33; // Geschwindigkeit
   static const altitudeDescField = 34; // Höhenbewertung
@@ -25,34 +36,47 @@ class Csv {
   static const difficultyField = 39; // Schwierigkeitsgrad
   static const streetField = 40; // Strasse
   static const cityField = 41; // Stadt
+  static const nextStreetField = 67; // Zwischenstation 1 - Strasse
+  static const nextCityField = 68; // Zwischenstation 1 - Stadt
 
   // Process relevant input fields
-  static const List<int> headerNamesCsvInput = [
-    titleField,
-    shortDescriptionField,
-    descriptionField,
-    startDateField,
-    startTimeField,
-    endDateField,
-    organizerField,
-    lengthField,
-    speedField,
-    altitudeDescField,
-    altitudeField,
-    speedDescField,
-    difficultyField,
-    cityField,
-    streetField,
+  static const List<(int, String)> csvInputDescription = [
+    (titleField, 'Titel'),
+    (shortDescriptionField, 'Kurzbeschreibung'),
+    (descriptionField, 'Beschreibung'),
+    (startDateField, 'Beginndatum'),
+    (startTimeField, 'Beginnzeit'),
+    (endDateField, 'Endedatum'),
+    (tourGuideField, 'Tourguide'),
+    (lengthField, 'Länge'),
+    (speedField, 'Geschwindigkeit'),
+    (altitudeDescField, 'Höhenbewertung'),
+    (altitudeField, 'Höhenmeter'),
+    (speedDescField, 'Geschwindigkeitsbereich'),
+    (difficultyField, 'Schwierigkeitsgrad'),
+    (cityField, 'Stadt'),
+    (streetField, 'Strasse'),
+    (nextStreetField, 'Zwischenstation 1 - Strasse'),
+    (nextCityField, 'Zwischenstation 1 - Stadt'),
   ];
 
-  // Output csv field
-  static const List<String> headerNamesCsvOutput = [
+  // additional fields calculated from input fields in tour_record._postProcessing()
+  // look also for enum AdditionalFields
+  static const List<String> additionalFields = [
+    'Anmeldung',
+    'Mehrtagestour',
+    'Tourguideabk.',
+    'Highlight',
+  ];
+
+  // fields for text and html output
+  static const List<String> textOutput = [
     'Titel',
     'Kurzbeschreibung',
     'Beschreibung',
-    'Beginn Datum',
-    'Beginn Zeit',
-    'Ende Datum',
+    'Start',
+    'Treffpunkt',
+    '2. Treffpunkt',
     'Tourenleitung',
     'Länge',
     'Geschwindigkeit',
@@ -60,14 +84,15 @@ class Csv {
     'Bergig',
     'Höhenbewertung',
     'Schwierigkeit',
-    'Stadt',
-    'Strasse',
     'Anmeldung',
-    'Mehrtagestour'
+    'Mehrtagestour',
+    'Ende'
   ];
 }
 
-// Tourguides ADFC Garbsen/Seeze
+enum AdditionalFields { registration, multidayTour, tourGuideAbbrev, highlight }
+
+// Tour guides ADFC Garbsen/Seeze
 const Map<String, String> tourGuidesAbbrev = {
   'Bastian Moll': 'BM',
   'Karl-Heinz Giese': 'KG',
