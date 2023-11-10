@@ -58,9 +58,12 @@ class AllTours {
 
     final dateStr = DateTime.now().format('_yyyy-MM-dd', 'de_DE');
     // final dateStr = '_${now.year}-${now.month}-${now.day}';
-    outputTextFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.txt');
-    outputHtmlFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.html');
-    outputCsvFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.csv');
+    outputTextFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.txt');
+    outputHtmlFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.html');
+    outputCsvFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.csv');
   }
 
   /// Print header, tours and footer from the internal ar

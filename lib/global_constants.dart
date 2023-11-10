@@ -60,8 +60,8 @@ class Csv {
     (nextCityField, 'Zwischenstation 1 - Stadt'),
   ];
 
-  // additional fields calculated from input fields in tour_record._postProcessing()
-  // look also for enum AdditionalFields
+  // additional fields calculated from input fields in
+  // tour_record._postProcessing()   // look also for enum AdditionalFields
   static const List<String> additionalFields = [
     'Anmeldung',
     'Mehrtagestour',
@@ -92,7 +92,7 @@ class Csv {
 
 enum AdditionalFields { registration, multidayTour, tourGuideAbbrev, highlight }
 
-// Tour guides ADFC Garbsen/Seeze
+// Tour guides ADFC Garbsen/Seelze
 const Map<String, String> tourGuidesAbbrev = {
   'Bastian Moll': 'BM',
   'Karl-Heinz Giese': 'KG',
