@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "mac_with_highlights",
+            "type": "dart",
+            "request": "launch",
+            "program": "bin/adfc_ttp.dart",
+            "args": [
+                "/Users/manfred/Downloads/Veranstaltungs-Export.csv",
+                "/Users/manfred/Downloads/ttp_highlights.txt"
+            ]
+        },
+        {
             "name": "mac",
             "type": "dart",
             "request": "launch",
