@@ -158,9 +158,11 @@ class AllTours {
 
     // HTML file
     htmlSink.writeln('<!DOCTYPE html>');
-    htmlSink.writeln('<html>');
-    htmlSink.writeln('<head> <title>ADFC Liste der Touren</title> </head>');
-    htmlSink.writeln('<meta charset="utf-8">');
+    htmlSink.writeln('<html lang=de>');
+    htmlSink.write('<head>');
+    htmlSink.write('<title>ADFC Liste der Touren</title>');
+    htmlSink.write('<meta charset="utf-8">');
+    htmlSink.writeln('</head>');
     htmlSink.writeln('<h1>ADFC Liste der Touren</h1>');
     htmlSink.writeln('<body>');
   }
