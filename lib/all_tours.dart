@@ -58,9 +58,12 @@ class AllTours {
 
     final dateStr = DateTime.now().format('_yyyy-MM-dd', 'de_DE');
     // final dateStr = '_${now.year}-${now.month}-${now.day}';
-    outputTextFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.txt');
-    outputHtmlFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.html');
-    outputCsvFile = File('$dirname${p.separator}$inputFileWithoutExt$dateStr.csv');
+    outputTextFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.txt');
+    outputHtmlFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.html');
+    outputCsvFile =
+        File('$dirname${p.separator}$inputFileWithoutExt$dateStr.csv');
   }
 
   /// Print header, tours and footer from the internal ar
@@ -155,9 +158,11 @@ class AllTours {
 
     // HTML file
     htmlSink.writeln('<!DOCTYPE html>');
-    htmlSink.writeln('<html>');
-    htmlSink.writeln('<head> <title>ADFC Liste der Touren</title> </head>');
-    htmlSink.writeln('<meta charset="utf-8">');
+    htmlSink.writeln('<html lang=de>');
+    htmlSink.write('<head>');
+    htmlSink.write('<title>ADFC Liste der Touren</title>');
+    htmlSink.write('<meta charset="utf-8">');
+    htmlSink.writeln('</head>');
     htmlSink.writeln('<h1>ADFC Liste der Touren</h1>');
     htmlSink.writeln('<body>');
   }
