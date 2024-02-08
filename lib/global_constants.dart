@@ -16,6 +16,31 @@ const List<String> normalSpeed = ['15 - 18 km/h'];
 const int altitudeThreshold = 300; // up to 300Hm normal, above mountainous
 const List<String> mountainous = ["hügelig", "bergig"];
 
+// TODO: replace CSV class with Enum
+
+enum CsvInputFields {
+  titleField(3, 'Titel'),
+  shortDescriptionField(4, 'Kurzbeschreibung'),
+  descriptionField(5, 'Beschreibung'),
+  startDateField(11, 'Beginndatum'),
+  startTimeField(12, 'Beginnzeit'),
+  endDateField(13, 'Endedatum'),
+  tourGuideField(26, 'Tourguide'),
+  lengthField(32, 'Länge'),
+  speedField(33, 'Geschwindigkeit'),
+  altitudeDescField(35, 'Höhenbewertung'),
+  speedDescField(37, 'Geschwindigkeitsbereich'),
+  difficultyField(39, 'Schwierigkeitsgrad'),
+  streetField(40, 'Strasse'),
+  cityField(41, 'Stadt'),
+  nextStreetField(67, 'Zwischenstation 1 - Strasse'),
+  nextCityField(68, 'Zwischenstation 1 - Stadt');
+
+  final int number;
+  final String text;
+  const CsvInputFields(this.number, this.text);
+}
+
 /// All related constants for parsing csv file
 class Csv {
   static const fieldDelimiter = ';';
