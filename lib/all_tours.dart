@@ -32,8 +32,8 @@ class AllTours {
     // map csv input fields to the fields in the tour record.
     // needed for accessing specific field in the tour record
     // by the field number of the csv input file
-    for (int i = 0; i < Csv.csvInputDescription.length; ++i) {
-      _csvInputFields2TourFields[Csv.csvInputDescription[i].$1] = i;
+    for (int i = 0; i < CsvInputField.values.length; ++i) {
+      _csvInputFields2TourFields[CsvInputField.values[i].number] = i;
     }
 
     final dirname = p.dirname(csvInputFile.path);
@@ -145,8 +145,8 @@ class AllTours {
   /// write headers to csv, text and html file before outputting the tours
   _printHeader(IOSink csvSink, IOSink htmlSink) {
     // CSV file
-    for (var fieldDescription in Csv.csvInputDescription) {
-      csvSink.write('${fieldDescription.$2}${Csv.fieldDelimiter}');
+    for (var fieldDescription in CsvInputField.values) {
+      csvSink.write('${fieldDescription.text}${Csv.fieldDelimiter}');
     }
 
     // additional fields in csv

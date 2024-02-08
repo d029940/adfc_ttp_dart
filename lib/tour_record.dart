@@ -36,7 +36,7 @@ class TourRecord {
   /// output a single tour to a csv file
   void printCsvLine(IOSink csvSink) {
     // input fields, which are directly copied to output fields
-    int lastField = Csv.csvInputDescription.length;
+    int lastField = CsvInputField.values.length;
 
     for (int i = 0; i < lastField; ++i) {
       // INFO: // No new lines in csv output fields
@@ -74,7 +74,7 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.titleField]!],
+      _tour[AllTours.csvInputFields2TourFields[CsvInputField.title.number]!],
       bold: true,
     );
     outputField++;
@@ -84,7 +84,8 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.shortDescriptionField]!],
+      _tour[AllTours
+          .csvInputFields2TourFields[CsvInputField.shortDescription.number]!],
     );
     outputField++;
 
@@ -93,13 +94,16 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!],
+      _tour[AllTours
+          .csvInputFields2TourFields[CsvInputField.description.number]!],
     );
     outputField++;
 
     // start
-    final day = _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!];
-    final time = _tour[AllTours.csvInputFields2TourFields[Csv.startTimeField]!];
+    final day = _tour[
+        AllTours.csvInputFields2TourFields[CsvInputField.startDate.number]!];
+    final time = _tour[
+        AllTours.csvInputFields2TourFields[CsvInputField.startTime.number]!];
     final weekday = nameOfWeekDays[_startDate.weekday - 1];
     _printRecord(
       txtSink,
@@ -111,8 +115,8 @@ class TourRecord {
 
     // meeting point
     String meetingPoint =
-        '${_tour[AllTours.csvInputFields2TourFields[Csv.cityField]!]}, '
-        '${_tour[AllTours.csvInputFields2TourFields[Csv.streetField]!]}';
+        '${_tour[AllTours.csvInputFields2TourFields[CsvInputField.city.number]!]}, '
+        '${_tour[AllTours.csvInputFields2TourFields[CsvInputField.street.number]!]}';
     _printRecord(
       txtSink,
       htmlSink,
@@ -122,12 +126,12 @@ class TourRecord {
     outputField++;
 
     // meeting point 2
-    final String nextCity =
-        _tour[AllTours.csvInputFields2TourFields[Csv.nextCityField]!];
+    final String nextCity = _tour[
+        AllTours.csvInputFields2TourFields[CsvInputField.nextCity.number]!];
     if (nextCity.isNotEmpty) {
       meetingPoint =
-          '${_tour[AllTours.csvInputFields2TourFields[Csv.nextCityField]!]}, '
-          '${_tour[AllTours.csvInputFields2TourFields[Csv.nextStreetField]!]}';
+          '${_tour[AllTours.csvInputFields2TourFields[CsvInputField.nextCity.number]!]}, '
+          '${_tour[AllTours.csvInputFields2TourFields[CsvInputField.nextStreet.number]!]}';
       _printRecord(
         txtSink,
         htmlSink,
@@ -142,7 +146,8 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.tourGuideField]!],
+      _tour[
+          AllTours.csvInputFields2TourFields[CsvInputField.tourGuide.number]!],
     );
     outputField++;
 
@@ -151,7 +156,7 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.lengthField]!],
+      _tour[AllTours.csvInputFields2TourFields[CsvInputField.length.number]!],
     );
     outputField++;
 
@@ -160,7 +165,7 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.speedField]!],
+      _tour[AllTours.csvInputFields2TourFields[CsvInputField.speed.number]!],
     );
     outputField++;
 
@@ -169,7 +174,8 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.speedDescField]!],
+      _tour[
+          AllTours.csvInputFields2TourFields[CsvInputField.speedDesc.number]!],
     );
     outputField++;
 
@@ -178,7 +184,7 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.altitudeField]!],
+      _tour[AllTours.csvInputFields2TourFields[CsvInputField.altitude.number]!],
     );
     outputField++;
 
@@ -187,7 +193,8 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.altitudeDescField]!],
+      _tour[AllTours
+          .csvInputFields2TourFields[CsvInputField.altitudeDesc.number]!],
     );
     outputField++;
 
@@ -196,7 +203,8 @@ class TourRecord {
       txtSink,
       htmlSink,
       Csv.textOutput[outputField],
-      _tour[AllTours.csvInputFields2TourFields[Csv.difficultyField]!],
+      _tour[
+          AllTours.csvInputFields2TourFields[CsvInputField.difficulty.number]!],
     );
     outputField++;
 
@@ -224,7 +232,8 @@ class TourRecord {
         txtSink,
         htmlSink,
         Csv.textOutput[outputField],
-        _tour[AllTours.csvInputFields2TourFields[Csv.endDateField]!],
+        _tour[
+            AllTours.csvInputFields2TourFields[CsvInputField.endDate.number]!],
       );
       outputField++;
     }
@@ -239,13 +248,14 @@ class TourRecord {
   /// checks if a tour should be highlighted (in html output)
   void setIsHighLight(String newIsHighLight) {
     _isHighLight = newIsHighLight;
-    _tour[Csv.csvInputDescription.length + AdditionalFields.highlight.index] =
+    _tour[CsvInputField.values.length + AdditionalFields.highlight.index] =
         newIsHighLight;
   }
 
   /// checks if the tour needs registration
   void _findRegistration() {
-    if (_tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!]
+    if (_tour[AllTours
+            .csvInputFields2TourFields[CsvInputField.description.number]!]
         .contains("Anmeldung")) {
       _tour.add('ja');
     } else {
@@ -255,8 +265,8 @@ class TourRecord {
 
   /// checks if a given input column is relevant for further processing
   bool _isCsvInputColRelevant(int col) {
-    for (var field in Csv.csvInputDescription) {
-      if (field.$1 == col) {
+    for (var field in CsvInputField.values) {
+      if (field.number == col) {
         return true;
       }
     }
@@ -274,15 +284,16 @@ class TourRecord {
   void _postProcessing() {
     try {
       // Convert dates
-      List<String> date =
-          _tour[AllTours.csvInputFields2TourFields[Csv.startDateField]!]
-              .split('.');
+      List<String> date = _tour[AllTours
+              .csvInputFields2TourFields[CsvInputField.startDate.number]!]
+          .split('.');
       int day = int.parse(date[0]);
       int month = int.parse(date[1]);
       int year = int.parse(date[2]);
       _startDate = DateTime(year, month, day);
 
-      date = _tour[AllTours.csvInputFields2TourFields[Csv.endDateField]!]
+      date = _tour[
+              AllTours.csvInputFields2TourFields[CsvInputField.endDate.number]!]
           .split('.');
       day = int.parse(date[0]);
       month = int.parse(date[1]);
@@ -306,20 +317,21 @@ class TourRecord {
 
       // Characteristics of a tour
       final RegExp regExp = RegExp(r'[="\\]');
-      final speedStr =
-          _tour[AllTours.csvInputFields2TourFields[Csv.speedField]!];
+      final speedStr = _tour[
+          AllTours.csvInputFields2TourFields[CsvInputField.speed.number]!];
       final replacedSpeedStr = speedStr.replaceAll(regExp, '');
       final isFastTour = int.parse(replacedSpeedStr) > altitudeThreshold
           ? 'schnell'
           : 'normal';
-      _tour[AllTours.csvInputFields2TourFields[Csv.speedField]!] = isFastTour;
+      _tour[AllTours.csvInputFields2TourFields[CsvInputField.speed.number]!] =
+          isFastTour;
 
-      final altitudeStr =
-          _tour[AllTours.csvInputFields2TourFields[Csv.altitudeField]!];
+      final altitudeStr = _tour[
+          AllTours.csvInputFields2TourFields[CsvInputField.altitude.number]!];
       final replacedAltitudeStr = altitudeStr.replaceAll(regExp, '');
 
       var altitude = int.parse(replacedAltitudeStr);
-      tour[AllTours.csvInputFields2TourFields[Csv.altitudeField]!] =
+      tour[AllTours.csvInputFields2TourFields[CsvInputField.altitude.number]!] =
           altitude > altitudeThreshold ? 'ja' : 'nein';
     } on FormatException catch (e) {
       print(e.message);
@@ -344,13 +356,13 @@ class TourRecord {
   /// tour guide is mentioned explicitly in the tour guide field
   void _replaceTourGuide() {
     // tour guide from tour guide / organizer field
-    String tourGuide =
-        _tour[AllTours.csvInputFields2TourFields[Csv.tourGuideField]!];
+    String tourGuide = _tour[
+        AllTours.csvInputFields2TourFields[CsvInputField.tourGuide.number]!];
     if (tourGuide.compareTo(defaultTourGuide) == 0) {
       // tour guide from description field extracted
-      final lines =
-          _tour[AllTours.csvInputFields2TourFields[Csv.descriptionField]!]
-              .split('\n');
+      final lines = _tour[AllTours
+              .csvInputFields2TourFields[CsvInputField.description.number]!]
+          .split('\n');
       for (var line in lines) {
         if (line.contains('Tourenleit') || line.contains('Tourleit')) {
           tourGuide = line;
@@ -358,14 +370,15 @@ class TourRecord {
         }
       }
     }
-    _tour[AllTours.csvInputFields2TourFields[Csv.tourGuideField]!] = tourGuide;
+    _tour[AllTours.csvInputFields2TourFields[CsvInputField.tourGuide.number]!] =
+        tourGuide;
   }
 
   /// Map tour guide names to their initials
   void _tourGuideAbbrev() {
     String tourGuideAbbrev = 'NN';
-    String tourGuide =
-        _tour[AllTours.csvInputFields2TourFields[Csv.tourGuideField]!];
+    String tourGuide = _tour[
+        AllTours.csvInputFields2TourFields[CsvInputField.tourGuide.number]!];
 
     // Abbreviations of tour guide
     tourGuidesAbbrev.forEach((guide, abbrev) {
