@@ -10,8 +10,8 @@
             "request": "launch",
             "program": "bin/adfc_ttp.dart",
             "args": [
-                "/Users/manfred/Downloads/Veranstaltungs-Export.csv",
-                "/Users/manfred/Downloads/ttp_highlights.txt"
+                "/Users/manfred/Documents/Fahrrad/ADFC/Flyer/Veranstaltungs-Export.csv",
+                "/Users/manfred/Documents/Fahrrad/ADFC/Flyer/ttp_highlights.txt"
             ]
         },
         {
@@ -20,7 +20,7 @@
             "request": "launch",
             "program": "bin/adfc_ttp.dart",
             "args": [
-                "/Users/manfred/Downloads/Veranstaltungs-Export.csv"
+                "/Users/manfred/Documents/Fahrrad/ADFC/Flyer/Veranstaltungs-Export.csv"
             ]
         },
         {
@@ -29,7 +29,7 @@
             "type": "dart",
             "program": "bin/adfc_ttp.dart",
             "args": [
-                "C:\\Users\\Manfred\\Downloads\\Veranstaltungs-Export.csv"
+                "C:\\Users\\Manfred\\Documents\\Fahrrad\\Flyer\\Veranstaltungs-Export.csv"
             ]
         }
     ]
